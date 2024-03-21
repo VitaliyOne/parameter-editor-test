@@ -1,6 +1,63 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
+}
+
+.appContainer{
+  display: flex;
+	justify-content: center;
+  flex-direction: column;
+	margin-top: 5vh;
+  border-radius: 8px;
+  background-color: rgb(185, 185, 185);
   padding: 2rem;
+  gap:25px
+}
+
+.container{
+  border: 1px solid #000000;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background-color: rgb(150, 150, 150);
+}
+
+.createForm{
+  display: flex;
+	flex-direction: column;
+	gap: 2vh;
+}
+
+.createFormInput {
+  display: flex;
+	flex-direction: column;
+	gap: 1vh;
+}
+
+.paramList{
+  display: flex;
+	flex-direction: column;
+	gap: 2vh;
+}
+
+input, select, button{
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  padding: 12px 8px;
+}
+
+button {
+  font-weight: 600;
+  background-color: rgb(36, 36, 36);
+  color: white;
+}
+
+h2{
   text-align: center;
+   margin: 0
 }
