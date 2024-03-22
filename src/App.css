@@ -39,28 +39,8 @@
 	gap: 2vh;
 }
 
-input, select, button{
-  width: 100%;
-  box-sizing: border-box;
-  padding: 8px;
-  border-radius: 8px;
-  border: none;
-}
-
-button {
-  font-weight: 600;
-  background-color: rgb(36, 36, 36);
-  color: white;
-  padding: 12px 8px;
-  cursor: pointer
-}
-
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed; 
-}
-
-h2{
-  text-align: center;
-   margin: 0
+@media (max-width: 600px) {
+  .appContainer{
+    margin-top: 0
+  }
 }

@@ -15,4 +15,35 @@ body {
   font-weight: 400;
 }
 
+input, select{
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
 
+button {
+  font-weight: 600;
+  background-color: rgb(36, 36, 36);
+  color: white;
+  cursor: pointer;
+  padding: 0.6em 1.2em;
+  transition: box-shadow 0.3s ease;
+  border-radius: 8px;
+}
+
+button:hover{
+  box-shadow: 0 0 5px #a500ce;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed; 
+}
+
+h2{
+  text-align: center;
+   margin: 0
+}
