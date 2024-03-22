@@ -33,16 +33,30 @@ const initParams: Param[] = [
 
 //Приложение
 function App() {
+  const [params, setParams] = useState<EditorParam[]>(() => {
+    const mergedParams: EditorParam[] = initParams.map(param => {
+      const initialValue = initModel.paramValues.find(value => value.paramId === param.id)?.value || '';
+      return { ...param, value: initialValue };
+    });
+    return mergedParams;
+  });
 
-  const params: EditorParam[] = [
-    { id: 1, name: "Назначение", type: "string", value: "повседневное" },
-    { id: 2, name: "Длина", type: "string", value: "макси" },
-  ];
+  const handleAddParam = useCallback((newParam: EditorParam) => {
+    setParams(prevParams => [...prevParams, newParam]);
+  }, []);
+
+  const handleParamChange = useCallback((id: number, newValue: string) => {
+    setParams(prevParams =>
+      prevParams.map(param =>
+        param.id === id ? { ...param, value: newValue } : param
+      )
+    );
+  }, []);
 
   return (
     <div className='appContainer'>
-      <CreateParamForm />
-      <ParamList items={params} />
+      <CreateParamForm onAddParam={handleAddParam} />
+      <ParamList items={params} onParamChange={handleParamChange} />
     </div>
   )
 }
@@ -50,7 +64,7 @@ export default App;
 
 
 // Компонент создания нового параметра
-const CreateParamForm = () => {
+const CreateParamForm = ({ onAddParam }: { onAddParam: (newParam: EditorParam) => void }) => {
   const [type, setType] = useState<ParamType>("string");
   const [name, setName] = useState("");
   const [value, setValue] = useState("");
@@ -71,7 +85,11 @@ const CreateParamForm = () => {
 
   const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  }, []);
+    const newParam: EditorParam = { id: Math.random(), name, type, value };
+    onAddParam(newParam);
+    setName('');
+    setValue('');
+  }, [name, type, value, onAddParam]);
 
   return (
     <div className="container">
@@ -111,6 +129,7 @@ const CreateParamForm = () => {
               <label>
                 Value:
                 <input
+                  type={type}
                   required
                   value={value}
                   onChange={handleValueChange}
@@ -129,7 +148,7 @@ const CreateParamForm = () => {
 
 // Компонент для вывода списка параметров
 
-function ParamList({ items }: { items: EditorParam[] }) {
+function ParamList({ items, onParamChange }: { items: EditorParam[]; onParamChange: (id: number, newValue: string) => void }) {
 
   return (
     <div className="container">
@@ -143,12 +162,13 @@ function ParamList({ items }: { items: EditorParam[] }) {
                 <input
                   type={item.type}
                   value={item.value}
+                  onChange={(e) => onParamChange(item.id, e.target.value)}
                 />
               </label>
             </div>
           ))}
         </div>
-        <button onClick={() => (console.log('22'))}>
+        <button onClick={() => (console.log(items))}>
           Вывести в консоль
         </button>
       </div>) : ("Параметры не заданы")}

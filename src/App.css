@@ -48,13 +48,16 @@ input, select, button{
 }
 
 button {
-  padding: 12px 8px;
-}
-
-button {
   font-weight: 600;
   background-color: rgb(36, 36, 36);
   color: white;
+  padding: 12px 8px;
+  cursor: pointer
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed; 
 }
 
 h2{
