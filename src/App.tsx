@@ -2,6 +2,7 @@ import "normalize.css";
 import { useCallback, useState } from 'react';
 import './App.css';
 
+
 //Начальные параметров
 const initModel: Model = {
   paramValues: [
@@ -53,10 +54,16 @@ function App() {
     );
   }, []);
 
+  const handleDeleteParam = useCallback((id: number) => {
+    setParams(prevParams =>
+      prevParams.filter(param => param.id !== id)
+    );
+  }, []);
+
   return (
     <div className='appContainer'>
       <CreateParamForm onAddParam={handleAddParam} />
-      <ParamList items={params} onParamChange={handleParamChange} />
+      <ParamList items={params} onParamChange={handleParamChange} onDeleteParam={handleDeleteParam} />
     </div>
   )
 }
@@ -85,11 +92,17 @@ const CreateParamForm = ({ onAddParam }: { onAddParam: (newParam: EditorParam) =
 
   const handleSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const newParam: EditorParam = { id: Math.random(), name, type, value };
+    const newParam: EditorParam = { id: getId(), name, type, value };
     onAddParam(newParam);
     setName('');
     setValue('');
   }, [name, type, value, onAddParam]);
+
+  function getId(): number {
+    const currentTime = Date.now();
+    const randomValue = Math.floor(Math.random() * 1000); // Просто для добавления небольшого случайного значения
+    return currentTime + randomValue;
+  }
 
   return (
     <div className="container">
@@ -148,30 +161,35 @@ const CreateParamForm = ({ onAddParam }: { onAddParam: (newParam: EditorParam) =
 
 // Компонент для вывода списка параметров
 
-function ParamList({ items, onParamChange }: { items: EditorParam[]; onParamChange: (id: number, newValue: string) => void }) {
+function ParamList({ items, onParamChange, onDeleteParam }: { items: EditorParam[], onParamChange: (id: number, value: string) => void, onDeleteParam: (id: number) => void }) {
 
   return (
     <div className="container">
       <h2> Список параметров</h2>
-      {items ? (<div className='paramList'>
+      {items && items.length !== 0 ? (<div className='paramList'>
         <div className='createFormInput'>
           {items.map(item => (
             <div key={item.id}>
-              <label>
-                {item.name}:
-                <input
-                  type={item.type}
-                  value={item.value}
-                  onChange={(e) => onParamChange(item.id, e.target.value)}
-                />
-              </label>
+              <div className="paramItemContent">
+                <label>
+                  {item.name}:
+                  <div className="inputContainer">
+                    <input
+                      type={item.type}
+                      value={item.value}
+                      onChange={(e) => onParamChange(item.id, e.target.value)}
+                    />
+                    <img src="/iconDelete.svg" alt="Delete Icon" className="inputIcon" onClick={() => onDeleteParam(item.id)} />
+                  </div>
+                </label>
+              </div>
             </div>
           ))}
         </div>
         <button onClick={() => (console.log(items))}>
           Вывести в консоль
         </button>
-      </div>) : ("Параметры не заданы")}
+      </div>) : (<h4>Параметры не заданы</h4>)}
     </div>
   );
 }
@@ -203,8 +221,3 @@ interface Props {
 interface EditorParam extends Param {
   value: ParamValue["value"],
 }
-
-// class ParamEditor extends React.Component<Props, State> {
-//   public getModel(): Model {
-//   }
-// }

@@ -33,6 +33,18 @@
 	gap: 1vh;
 }
 
+.inputContainer {
+  display: flex;
+}
+
+.inputIcon {
+ width: 30px;
+ cursor: pointer;
+ border: 2px solid black;
+ border-radius: 8px;
+ margin-left: 5px;
+}
+
 .paramList{
   display: flex;
 	flex-direction: column;
