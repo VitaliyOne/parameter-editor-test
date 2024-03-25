@@ -1,6 +1,6 @@
 # Редактор параметров
 
-Демо: 
+Демо: https://parameter-editor-test.vercel.app/
 
 ## Тестовое задание
 
