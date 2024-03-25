@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react';
 import './App.css';
 
 
-//Начальные параметров
+//Начальные значения параметров
 const initModel: Model = {
   paramValues: [
     {
@@ -63,7 +63,7 @@ function App() {
   return (
     <div className='appContainer'>
       <CreateParamForm onAddParam={handleAddParam} />
-      <ParamList items={params} onParamChange={handleParamChange} onDeleteParam={handleDeleteParam} />
+      <ParamList params={params} onParamChange={handleParamChange} onDeleteParam={handleDeleteParam} />
     </div>
   )
 }
@@ -161,14 +161,14 @@ const CreateParamForm = ({ onAddParam }: { onAddParam: (newParam: EditorParam) =
 
 // Компонент для вывода списка параметров
 
-function ParamList({ items, onParamChange, onDeleteParam }: { items: EditorParam[], onParamChange: (id: number, value: string) => void, onDeleteParam: (id: number) => void }) {
+function ParamList({ params, onParamChange, onDeleteParam }: { params: EditorParam[], onParamChange: (id: number, value: string) => void, onDeleteParam: (id: number) => void }) {
 
   return (
     <div className="container">
       <h2> Список параметров</h2>
-      {items && items.length !== 0 ? (<div className='paramList'>
+      {params && params.length !== 0 ? (<div className='paramList'>
         <div className='createFormInput'>
-          {items.map(item => (
+          {params.map(item => (
             <div key={item.id}>
               <div className="paramItemContent">
                 <label>
@@ -186,7 +186,7 @@ function ParamList({ items, onParamChange, onDeleteParam }: { items: EditorParam
             </div>
           ))}
         </div>
-        <button onClick={() => (console.log(items))}>
+        <button onClick={() => (console.log(params))}>
           Вывести в консоль
         </button>
       </div>) : (<h4>Параметры не заданы</h4>)}
@@ -211,11 +211,6 @@ interface ParamValue {
 
 interface Model {
   paramValues: ParamValue[];
-}
-
-interface Props {
-  params: Param[];
-  model: Model;
 }
 
 interface EditorParam extends Param {
